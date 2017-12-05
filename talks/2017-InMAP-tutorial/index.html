@@ -5,13 +5,20 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-	<title>InMAP Tutorial November 2017</title>
+	<title>InMAP Tutorial December 2017</title>
 
 	<link rel="stylesheet" href="../reveal.js-3.6.0/css/reveal.css">
 	<link rel="stylesheet" href="../reveal.js-3.6.0/css/theme/black_mod.css">
 
 	<!-- Theme used for syntax highlighting of code -->
 	<link rel="stylesheet" href="../reveal.js-3.6.0/lib/css/zenburn.css">
+
+	<style>
+		.cmd {
+			font-family: monospace;
+			color: #333;
+		}
+	</style>
 
 	<!-- Printing and PDF exports -->
 	<script>
@@ -61,27 +68,219 @@
 
 			<section>
 				<h3>InMAP formulation</h3>
-				<br>
-				<script type="math/tex; mode=display">
-					\frac{\partial C_i}{\partial t} = \nabla \cdot \left( D \nabla C_i \right) - \nabla \cdot \left( \vec{v} C_i \right) + \sum_{j=1}^n{R_{i,j}} + E_i - d_i
-				</script>
-				<br>
-			</section>
-
-			<section>
-				<h3>Advection + Mixing</h3>
-			</section>
-
-			<section>
-				<h3>Reaction</h3>
+				<ul>
+					<li>Emission</li>
+					<li>Advection + Mixing</li>
+					<li>Reaction</li>
+					<li>Deposition</li>
+					<li>Exposure + Health Effects</li>
+				</ul>
 			</section>
 
 			<section>
 				<h3>Emission</h3>
+				<ul>
+					<li>"VOC", "NOx", "NH3", "SOx", and "PM2_5"</li>
+					<li><a href="https://en.wikipedia.org/wiki/Shapefile">Shapefile</a> format</li>
+					<li>Annual total</li>
+					<li>Can include stack "height", "diam", "temp", and "velocity" [m, m, K, and m/s].</li>
+				</ul>
 			</section>
 
 			<section>
+				<h3>Advection + Mixing</h3>
+				<ul>
+					<li>Annual average wind speeds</li>
+					<li>Parameters for wind "meandering" and sub-grid mixing</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Reaction</h3>
+				<ul>
+					<li>InMAP only considers chemistry related to PM<sub>2.5</sub> (no O<sub>3</sub>)</li>
+					<li>NH<sub>3</sub> ⇆ particulate NH<sub>4</sub></li>
+					<li>NO<sub>x</sub> ⇆ particulate NO<sub>3</sub></li>
+					<li>VOC ⇆ SOA</li>
+					<li>SO<sub>x</sub> → particulate SO<sub>4</sub></li>
+					<li>Primary PM<sub>2.5</sub> stays that way</li>
+				</ul>
+			</section>
+
+
+			<section>
 				<h3>Deposition</h3>
+				<ul>
+					<li>Dry deposition (collisions with surfaces)</li>
+					<li>Wet deposition (absorption into clouds + droplet scavenging)</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Exposure + Health Effects</h3>
+				<ul>
+					<li>Concentration changes</li>
+					<li>Population</li>
+					<li>Baseline mortality rate</li>
+				</ul>
+				<pre><code>
+					[OutputVariables]
+					  TotalPM25 = "PrimaryPM25 + pNH4 + pSO4 + pNO3 + SOA"
+					  DeathsAll = "coxHazard(loglogRR(totalpm25), POP, mota_rate*100)"
+				</pre></code>
+			</section>
+
+			<section>
+				<h1>Performance evaluation</h1>
+			</section>
+
+			<section>
+				<img class="stretch" data-src="img/journal.pone.0176131.g003.PNG"></img>
+				<p>Comparison of total (primary plus secondary) area-weighted (black dots) and population-weighted (blue triangles) annual average predicted PM<sub>2.5</sub> concentration change for WRF-Chem (x axis) and either InMAP or COBRA (y axis) for 11 emissions
+					scenarios. Concentrations are normalized so that the largest value in each comparison equals one.
+				</p>
+				<p><small>Tessum, C. W.; Hill, J. D.; Marshall, J. D. InMAP: A model for air pollution interventions. <em>PLoS ONE</em> <strong>2017</strong>, <em>12</em> (4), e0176131 DOI: <a href="https://doi.org/10.1371/journal.pone.0176131">10.1371/journal.pone.0176131</a>.
+				</small></p>
+			</section>
+
+			<section>
+				<img class="stretch" data-src="img/journal.pone.0176131.g006.PNG"></img>
+				<p>Comparison of WRF-Chem and InMAP performance in predicting annual average observed total PM<sub>2.5</sub> concentrations. The background colors in the maps represent predicted concentrations, and the colors of the circles on the maps represent the
+					difference between modeled and measured values at measurement locations.
+				</p>
+				<p><small>Tessum, C. W.; Hill, J. D.; Marshall, J. D. InMAP: A model for air pollution interventions. <em>PLoS ONE</em> <strong>2017</strong>, <em>12</em> (4), e0176131 DOI: <a href="https://doi.org/10.1371/journal.pone.0176131">10.1371/journal.pone.0176131</a>.
+				</small></p>
+			</section>
+
+			<section>
+				<h1>Using <object height="50px" data="img/textLogo.svg" type="image/svg+xml">InMAP</object></h1>
+			</section>
+
+			<section>
+				<h3>This tutorial</h3>
+				<pre><code data-trim>
+2017-12-04 CRAES InMAP Workshop/
+├── geos-chem
+│   ├── inmap_inputs_geoschem4x5.ncf
+│   ├── link_files.go
+│   └── vegtype.global
+├── preprocess_config.toml
+├── emissions
+│   ├── beijing_china.osm.pbf
+│   ├── beijing_tags.csv
+│   ├── build.sh
+│   ├── emissions.dbf
+│   ├── emissions.prj
+│   ├── emissions.shp
+│   ├── emissions.shx
+│   ├── get_tags.go
+│   ├── process_emissions.go
+│   ├── process_emissions_linux
+│   ├── process_emissions_mac
+│   ├── process_emissions_windows.exe
+│   └── README.md
+├── population
+│   ├── Data descriptions.txt
+│   ├── PopCensus2010_township.dbf
+│   ├── PopCensus2010_township.prj
+│   ├── PopCensus2010_township.shp
+│   ├── PopCensus2010_township.shx
+│   └── Wu et al 2015 EPA.pdf
+├── mortality
+│   ├── mortality_province.dbf
+│   ├── mortality_province.prj
+│   ├── mortality_province.shp
+│   ├── mortality_province.shx
+│   └── README.md
+├── run_config.toml
+└── output
+    └── inmap_output.log
+</code></pre>
+				<p>Data at <a href="xxxxxxxxxxxxxxx">xxxxxxxxxxxxxxx</a>.
+			</section>
+
+			<section>
+				<h3>Using the terminal</h3>
+				<ol>
+					<li>Open a terminal window:</li>
+					<ul>
+						<li><strong>Mac: </strong> Applications > Utilities > Terminal</li>
+						<li><strong>Windows 10: </strong> Push 'Windows Key' > Type 'cmd.exe' > Push 'Enter'</li>
+					</ul>
+					<li>Type 'cd ' (i.e., 'c', 'd', 'space key').</li>
+					<li>Click on the (unzipped) folder containing the tutorial data and drag it into the terminal window.</li>
+					<li>Push the 'Enter' key.</li>
+					<li>Start InMAP:</li>
+					<ul>
+						<li><strong>Mac: </strong> Type './inmap1.4darwin-amd64' (note the './') and push 'Enter'.</li>
+						<li><strong>Windows 10: </strong> Type 'inmap1.4windows-amd64.exe' (with no './') and push 'Enter'.</li>
+					</ul>
+					<li>A user interface window should open in your browser.</li>
+				</ol>
+			</section>
+
+			<section>
+				<h3>Running the GEOS-Chem preprocessor</h3>
+				<ul>
+					<li>GUI</li>
+					<ol>
+						<li>Type 'preprocess_config.toml' into the '--config' input field.</li>
+						<li>Click the 'Execute' button.</li>
+					</ol>
+					<li>Command line: <pre><code>inmap1.4XXXX preproc --config=preprocess_config.toml</code></pre> (where 'XXXX' denotes the program version for your operating system).</li>
+					<li>Note: In order for this to actually work, you would need to download the GEOS-Chem data. More information is available in the 'geos-chem/README.md'.</li>
+					<li>For now, we will use previously the previously created preprocessor output file at 'geos-chem/inmap_inputs_geoschem4x5.ncf'.
+				</ul>
+			</section>
+
+			<section>
+				<h3>Creating emissions inputs</h3>
+				<ul>
+					<li>We will create example emissions scenarios using OpenStreetMap data for Beijing.</li>
+					<li>For example, we can compare whether a unit of emissions of primary PM<sub>2.5</sub> is more damaging per mile of major roadways vs. residential roadways.</li>
+					<li>To do this we create two emissions input shapefiles by running the commands:
+						<pre><code>./emissions/process_emissions_xxx -osmfile=emissions/beijing_china.osm.pbf -tag=highway -value=primary -pm25rate=1000 -out=run/primary_hw_emissions.shp</code></pre> and
+						<pre><code>./emissions/process_emissions_xxx -osmfile=emissions/beijing_china.osm.pbf -tag=highway -value=residential -pm25rate=1000 -out=run/residential_hw_emissions.shp</code></pre>
+					</li>
+					<li>More information is available in the <a href="xxxxxx">emissions</a> directory.</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Running InMAP</h3>
+				<ul>
+					<li>GUI:
+						<ol>
+							<li>Type "run_config.toml" in the --config input window.</li>
+							<li>Select the "run" and "steady" subcommands.</li>
+							<li>Set the '--EmissionShapefiles' field to '[emissions/primary_hw_emissions.shp]'.</li>
+							<li>Set the '--OutputFile' field to 'output/primary_hw.shp'.</li>
+							<li>Click "Execute".</li>
+						</ol>
+						<li>Command line:
+							<pre><code>inmap1.4XXXX run steady --config=run_config.toml --EmissionShapefiles='[emissions/primary_hw_emissions.shp]' --OutputFile='output/primary_hw.shp'</code></pre></li>
+						<li>...and repeat for the residential roads.</li>
+						<li>Compare the output of the two simulations in QGIS</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>More information</h3>
+				<ul>
+					<li><a href="https://github.com/spatialmodel/inmap">https://github.com/spatialmodel/inmap</a></li>
+					<li><a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0176131">http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0176131</a></li>
+					<li><a href="https://groups.google.com/forum/#!forum/inmap-users">https://groups.google.com/forum/#!forum/inmap-users</a></li>
+					<li>ctessum@uw.edu</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Practice exercises</h3>
+				<ul>
+					<li>What are health impacts per unit emissions from restaurants in Beijing?</li>
+					<li>Is that more or less than in <a href="https://mapzen.com/data/metro-extracts/">Guangzhou (23.1291° N, 113.2644° E)?</a></li>
+					<li>On average in all of <a href="http://download.geofabrik.de/asia/china.html">China</a>, what are the health impacts per unit of emissions from railway stations?</li>
+				</ul>
 			</section>
 
 		</div>
@@ -97,7 +296,7 @@
 		Reveal.initialize({
 			math: {
 				mathjax: '../MathJax-2.7.2/MathJax.js',
-				config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+				config: 'TeX-AMS_HTML-full' // See http://docs.mathjax.org/en/latest/config-files.html
 			},
 			dependencies: [{
 					src: '../reveal.js-3.6.0/plugin/markdown/marked.js'
@@ -121,6 +320,9 @@
 					}
 				}
 			]
+		});
+		Reveal.configure({
+			slideNumber: true
 		});
 	</script>
 </body>
