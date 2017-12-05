@@ -35,7 +35,7 @@
 		<div class="slides">
 			<section>
 				<h1>Modeling Impacts of Air Pollution Interventions with <object height="50px" data="img/textLogo.svg" type="image/svg+xml">InMAP</object></h1>
-				<h3>Tutorial; November 2017</h3>
+				<h3>Tutorial; December 2017</h3>
 				<br>
 				<p>Christopher Tessum</p>
 				<br>
@@ -65,6 +65,15 @@
 
 			<section>
 				<img class="stretch" src="img/lur_methodology.svg"></img>
+			</section>
+
+			<section>
+				<h3>Models similar to InMAP</h3>
+				<ul>
+					<li><a href="https://sites.google.com/site/nickmullershomepage/home/ap2-apeep-model-2">APEEP/AP2</a></li>
+					<li><a href="http://barney.ce.cmu.edu/~jinhyok/easiur/">EASIUR</a></li>
+				</ul>
+				<p>Neither of these work outside the US.</p>
 			</section>
 
 			<section>
@@ -251,11 +260,15 @@ inmap1.4windows-amd64.exe preproc --config=preprocess_config.toml
 						<pre><code>
 cd emissions # Move to emissions directory.
 # Mac:
-./process_emissions_mac -osmfile=beijing_china.osm.pbf -tag=highway -value=primary -pm25rate=1000 -out=../run/primary_hw_emissions.shp
-./process_emissions_mac -osmfile=beijing_china.osm.pbf -tag=highway -value=residential -pm25rate=1000 -out=../run/residential_hw_emissions.shp
+./process_emissions_mac -osmfile=beijing_china.osm.pbf -tag=highway -value=primary -pm25rate=1000 \
+		-out=../run/primary_hw_emissions.shp
+./process_emissions_mac -osmfile=beijing_china.osm.pbf -tag=highway -value=residential -pm25rate=1000 \
+		-out=../run/residential_hw_emissions.shp
 # Windows:
-process_emissions_windows.exe -osmfile=beijing_china.osm.pbf -tag=highway -value=primary -pm25rate=1000 -out=../run/primary_hw_emissions.shp
-process_emissions_windows.exe -osmfile=beijing_china.osm.pbf -tag=highway -value=residential -pm25rate=1000 -out=../run/residential_hw_emissions.shp
+process_emissions_windows.exe -osmfile=beijing_china.osm.pbf -tag=highway -value=primary -pm25rate=1000 \
+		-out=../run/primary_hw_emissions.shp
+process_emissions_windows.exe -osmfile=beijing_china.osm.pbf -tag=highway -value=residential -pm25rate=1000 \
+		-out=../run/residential_hw_emissions.shp
 cd ../ # Move back to parent directory.
 						</code></pre>
 					</li>
@@ -276,9 +289,13 @@ cd ../ # Move back to parent directory.
 						<li>Try the residential roads simulation using the command line:
 							<pre><code>
 # Mac
-./inmap1.4darwin-amd64 run steady --config=run_config.toml --EmissionsShapefiles='["run/residential_hw_emissions.shp"]' --OutputFile='run/residential_hw.shp'
+./inmap1.4darwin-amd64 run steady --config=run_config.toml \
+			--EmissionsShapefiles='["run/residential_hw_emissions.shp"]' \
+			--OutputFile='run/residential_hw.shp'
 # Windows
-inmap1.4windows-amd64.exe run steady --config=run_config.toml --EmissionsShapefiles='["run/residential_hw_emissions.shp"]' --OutputFile='run/residential_hw.shp'
+inmap1.4windows-amd64.exe run steady --config=run_config.toml \
+			--EmissionsShapefiles='["run/residential_hw_emissions.shp"]' \
+			--OutputFile='run/residential_hw.shp'
 							</code></pre>
 						</li>
 						<li>Compare the output of the two simulations in QGIS using Vector > Analysis Tools > Basic statistics</li>
@@ -298,7 +315,7 @@ inmap1.4windows-amd64.exe run steady --config=run_config.toml --EmissionsShapefi
 			<section>
 				<h3>Practice exercises</h3>
 				<ul>
-					<li>What are health impacts per unit emissions from restaurants in Beijing?</li>
+					<li>What are health impacts per unit emissions of different pollutants from restaurants in Beijing?</li>
 					<li>Is that more or less than in <a href="https://mapzen.com/data/metro-extracts/">Guangzhou (23.1291° N, 113.2644° E)?</a></li>
 					<li>On average in all of <a href="http://download.geofabrik.de/asia/china.html">China</a>, what are the health impacts per unit of emissions from railway stations?</li>
 				</ul>
