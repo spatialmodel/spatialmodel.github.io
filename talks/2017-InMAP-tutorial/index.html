@@ -35,7 +35,7 @@
 		<div class="slides">
 			<section>
 				<h1>Modeling Impacts of Air Pollution Interventions with <object height="50px" data="img/textLogo.svg" type="image/svg+xml">InMAP</object></h1>
-				<h3>Tutorial; December 2017</h3>
+				<h3>Tutorial—December 2017</h3>
 				<br>
 				<p>Christopher Tessum</p>
 				<br>
@@ -130,8 +130,8 @@
 				<h3>Exposure + Health Effects</h3>
 				<ul>
 					<li>Concentration changes</li>
-					<li>Population</li>
-					<li>Baseline mortality rate</li>
+					<li>Population (More information in <a href="https://github.com/spatialmodel/spatialmodel.github.io/tree/master/talks/2017-InMAP-tutorial/population">population</a> directory)</li>
+					<li>Baseline mortality rate (More information in <a href="https://github.com/spatialmodel/spatialmodel.github.io/tree/master/talks/2017-InMAP-tutorial/mortality">mortality</a> directory)</li>
 				</ul>
 				<pre><code>
 [OutputVariables]
@@ -212,17 +212,23 @@
 				<ol>
 					<li>Open a terminal window:</li>
 					<ul>
-						<li><strong>Mac: </strong> Applications > Utilities > Terminal</li>
-						<li><strong>Windows: </strong> Push 'Windows Key' > Type 'cmd.exe' > Push 'Enter'</li>
+						<pre><code class="markdown">
+# Mac:
+Applications > Utilities > Terminal
+# Windows:
+Push 'Windows Key' > Type 'cmd.exe' > Push 'Enter'
+						</code></pre>
 					</ul>
 					<li>Type 'cd ' (i.e., 'c', 'd', 'space key').</li>
 					<li>Click on the (unzipped) folder containing the tutorial data and drag it into the terminal window.</li>
 					<li>Push the 'Enter' key.</li>
 					<li>Start InMAP:</li>
-					<ul>
-						<li><strong>Mac: </strong> Type './inmap1.4darwin-amd64' (note the './') and push 'Enter'.</li>
-						<li><strong>Windows 10: </strong> Type 'inmap1.4windows-amd64.exe' (with no './') and push 'Enter'.</li>
-					</ul>
+					<pre><code class="bash">
+# Mac: Type:
+./inmap1.4darwin-amd64 # (note the './') and push 'Enter'.
+# Windows: Type:
+inmap1.4windows-amd64.exe # (with no './') and push 'Enter'.</li>
+					</code></pre>
 					<li>A user interface window should open in your browser.</li>
 				</ol>
 			</section>
@@ -235,44 +241,48 @@
 						<li>Type 'preprocess_config.toml' into the '--config' input field.</li>
 						<li>Select the 'preproc' subcommand.</li>
 						<li>Click the 'Execute' button.</li>
+						<li>Push the 'Ctrl' and 'C' buttons at the same time ('Ctrl' first then hold it down and press 'C') in the command line to exit InMAP.</li>
+						<li>Also close the InMAP window in your browser to avoid future confusion.</li>
 					</ol>
 					<li>Command line:
-						<pre><code>
+						<pre><code class="bash">
 # Mac
 ./inmap1.4darwin-amd64 preproc --config=preprocess_config.toml
 # Windows
 inmap1.4windows-amd64.exe preproc --config=preprocess_config.toml
 						</code></pre>
 					</li>
-					<li>Note: In order for this to actually work, you would need to download the GEOS-Chem data. More information is available in the 'geos-chem/README.md'.</li>
-					<li>For now, we will use previously the previously created preprocessor output file at 'geos-chem/inmap_inputs_geoschem4x5.ncf'.</li>
-					<li>Push the 'Ctrl' and 'C' buttons at the same time ('Ctrl' first then hold it down and press 'C') in the command line to exit InMAP.</li>
-					<li>Also close the InMAP window in your browser to avoid future confusion.</li>
+					<li>As we have not downloaded the necessary data to run the preprocessor, we will use the previously created preprocessor output file at 'geos-chem/inmap_inputs_geoschem4x5.ncf'.</li>
+					<li><strong>Note:</strong> The preprocessed data here it for tutorial purposes only. It is not recommended to use it in a serious analysis.</li>
+					<li>More information is available in the <a href="https://github.com/spatialmodel/spatialmodel.github.io/tree/master/talks/2017-InMAP-tutorial/geos-chem">geos-chem</a> directory.</li>
 				</ul>
 			</section>
 
 			<section>
 				<h3>Creating emissions inputs</h3>
 				<ul>
-					<li>We will create example emissions scenarios using OpenStreetMap data for Beijing.</li>
+					<li>We will create example emissions scenarios using <a href="http://www.openstreetmap.org/">OpenStreetMap</a> data for Beijing.</li>
 					<li>For example, we can compare whether a unit of emissions of primary PM<sub>2.5</sub> is more damaging per mile of major roadways vs. residential roadways.</li>
 					<li>To do this we create two emissions input shapefiles by running the commands:
-						<pre><code>
+						<pre><code class="bash">
 cd emissions # Move to emissions directory.
 # Mac:
-./process_emissions_mac -osmfile=beijing_china.osm.pbf -tag=highway -value=primary -pm25rate=1000 \
+./process_emissions_mac -osmfile=beijing_china.osm.pbf -tag=highway -value=primary -pm25rate=0.1 \
 		-out=../run/primary_hw_emissions.shp
-./process_emissions_mac -osmfile=beijing_china.osm.pbf -tag=highway -value=residential -pm25rate=1000 \
+./process_emissions_mac -osmfile=beijing_china.osm.pbf -tag=highway -value=residential -pm25rate=0.1 \
 		-out=../run/residential_hw_emissions.shp
+
 # Windows:
-process_emissions_windows.exe -osmfile=beijing_china.osm.pbf -tag=highway -value=primary -pm25rate=1000 \
+process_emissions_windows.exe -osmfile=beijing_china.osm.pbf -tag=highway -value=primary -pm25rate=0.1 ^
 		-out=../run/primary_hw_emissions.shp
-process_emissions_windows.exe -osmfile=beijing_china.osm.pbf -tag=highway -value=residential -pm25rate=1000 \
+process_emissions_windows.exe -osmfile=beijing_china.osm.pbf -tag=highway -value=residential -pm25rate=0.1 ^
 		-out=../run/residential_hw_emissions.shp
-cd ../ # Move back to parent directory.
+
+# Move back to parent directory.
+cd ../
 						</code></pre>
 					</li>
-					<li>More information is available in the <a href="xxxxxx">emissions</a> directory.</li>
+					<li>More information is available in the <a href="https://github.com/spatialmodel/spatialmodel.github.io/tree/master/talks/2017-InMAP-tutorial/emissions">emissions</a> directory.</li>
 					<li>Our emissions files should now be in the 'run' directory, we can view them with <a href="https://www.qgis.org/en/site/">QGIS</a>!</li>
 				</ul>
 			</section>
@@ -281,21 +291,24 @@ cd ../ # Move back to parent directory.
 				<h3>Running InMAP</h3>
 				<ul>
 					<li>GUI:
+						<pre><code class="bash">
+# Mac
+./inmap1.4darwin-amd64
+# Windows
+inmap1.4windows-amd64.exe
+						</code></pre>
 						<ol>
-							<li>Type "run_config.toml" in the --config input window.</li>
+							<li>Type "run_primary.toml" in the --config input window.</li>
 							<li>Select the "run" and "steady" subcommands.</li>
-							<li>Click "Execute".</li>
+							<li>Click "Execute". It should run for
+								< 10 minutes.</li>
 						</ol>
 						<li>Try the residential roads simulation using the command line:
-							<pre><code>
+							<pre><code class="bash">
 # Mac
-./inmap1.4darwin-amd64 run steady --config=run_config.toml \
-			--EmissionsShapefiles='["run/residential_hw_emissions.shp"]' \
-			--OutputFile='run/residential_hw.shp'
+./inmap1.4darwin-amd64 run steady --config=run_residential.toml
 # Windows
-inmap1.4windows-amd64.exe run steady --config=run_config.toml \
-			--EmissionsShapefiles='["run/residential_hw_emissions.shp"]' \
-			--OutputFile='run/residential_hw.shp'
+inmap1.4windows-amd64.exe run steady --config=run_residential.toml
 							</code></pre>
 						</li>
 						<li>Compare the output of the two simulations in QGIS using Vector > Analysis Tools > Basic statistics</li>
