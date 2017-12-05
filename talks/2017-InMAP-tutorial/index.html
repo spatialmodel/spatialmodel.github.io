@@ -48,6 +48,7 @@
 				<a href="http://inmap.spatialmodel.com">inmap.spatialmodel.com</a>
 				<br>
 				<p>Tessum, C. W.; Hill, J. D.; Marshall, J. D. InMAP: A model for air pollution interventions. <em>PLoS ONE</em> <strong>2017</strong>, <em>12</em> (4), e0176131 DOI: <a href="https://doi.org/10.1371/journal.pone.0176131">10.1371/journal.pone.0176131</a>.</p>
+				<p>Download InMAP from <a href="https://github.com/spatialmodel/inmap/releases">here</a>.</p>
 			</section>
 
 			<section>
@@ -124,9 +125,9 @@
 					<li>Baseline mortality rate</li>
 				</ul>
 				<pre><code>
-					[OutputVariables]
-					  TotalPM25 = "PrimaryPM25 + pNH4 + pSO4 + pNO3 + SOA"
-					  DeathsAll = "coxHazard(loglogRR(totalpm25), POP, mota_rate*100)"
+[OutputVariables]
+  TotalPM25 = "PrimaryPM25 + pNH4 + pSO4 + pNO3 + SOA"
+  DeathsAll = "coxHazard(loglogRR(totalpm25), POP, mota_rate*100)"
 				</pre></code>
 			</section>
 
@@ -159,43 +160,41 @@
 			<section>
 				<h3>This tutorial</h3>
 				<pre><code data-trim>
-2017-12-04 CRAES InMAP Workshop/
-├── geos-chem
-│   ├── inmap_inputs_geoschem4x5.ncf
-│   ├── link_files.go
-│   └── vegtype.global
-├── preprocess_config.toml
-├── emissions
-│   ├── beijing_china.osm.pbf
-│   ├── beijing_tags.csv
-│   ├── build.sh
-│   ├── emissions.dbf
-│   ├── emissions.prj
-│   ├── emissions.shp
-│   ├── emissions.shx
-│   ├── get_tags.go
-│   ├── process_emissions.go
-│   ├── process_emissions_linux
-│   ├── process_emissions_mac
-│   ├── process_emissions_windows.exe
-│   └── README.md
-├── population
-│   ├── Data descriptions.txt
-│   ├── PopCensus2010_township.dbf
-│   ├── PopCensus2010_township.prj
-│   ├── PopCensus2010_township.shp
-│   ├── PopCensus2010_township.shx
-│   └── Wu et al 2015 EPA.pdf
-├── mortality
-│   ├── mortality_province.dbf
-│   ├── mortality_province.prj
-│   ├── mortality_province.shp
-│   ├── mortality_province.shx
-│   └── README.md
-├── run_config.toml
-└── output
-    └── inmap_output.log
-</code></pre>
+					2017-InMAP-tutorial/
+					├── geos-chem
+					│   ├── inmap_inputs_geoschem4x5.ncf
+					│   ├── link_files.go
+					│   ├── README.md
+					│   └── vegtype.global
+					├── emissions
+					│   ├── beijing_china.osm.pbf
+					│   ├── beijing_tags.csv
+					│   ├── build.sh
+					│   ├── get_tags.go
+					│   ├── process_emissions.go
+					│   ├── process_emissions_linux
+					│   ├── process_emissions_mac
+					│   ├── process_emissions_windows.exe
+					│   └── README.md
+					├── mortality
+					│   ├── mortality_province.dbf
+					│   ├── mortality_province.prj
+					│   ├── mortality_province.shp
+					│   ├── mortality_province.shx
+					│   └── README.md
+					├── population
+					│   ├── Data descriptions.txt
+					│   ├── PopCensus2010_township.dbf
+					│   ├── PopCensus2010_township.prj
+					│   ├── PopCensus2010_township.shp
+					│   ├── PopCensus2010_township.shx
+					│   ├── README.md
+					│   └── Wu et al 2015 EPA.pdf
+					├── run
+					│   └── README.md
+					├── preprocess_config.toml
+					└── run_config.toml
+					</code></pre>
 				<p>Data at <a href="xxxxxxxxxxxxxxx">xxxxxxxxxxxxxxx</a>.
 			</section>
 
@@ -205,7 +204,7 @@
 					<li>Open a terminal window:</li>
 					<ul>
 						<li><strong>Mac: </strong> Applications > Utilities > Terminal</li>
-						<li><strong>Windows 10: </strong> Push 'Windows Key' > Type 'cmd.exe' > Push 'Enter'</li>
+						<li><strong>Windows: </strong> Push 'Windows Key' > Type 'cmd.exe' > Push 'Enter'</li>
 					</ul>
 					<li>Type 'cd ' (i.e., 'c', 'd', 'space key').</li>
 					<li>Click on the (unzipped) folder containing the tutorial data and drag it into the terminal window.</li>
@@ -225,11 +224,21 @@
 					<li>GUI</li>
 					<ol>
 						<li>Type 'preprocess_config.toml' into the '--config' input field.</li>
+						<li>Select the 'preproc' subcommand.</li>
 						<li>Click the 'Execute' button.</li>
 					</ol>
-					<li>Command line: <pre><code>inmap1.4XXXX preproc --config=preprocess_config.toml</code></pre> (where 'XXXX' denotes the program version for your operating system).</li>
+					<li>Command line:
+						<pre><code>
+# Mac
+./inmap1.4darwin-amd64 preproc --config=preprocess_config.toml
+# Windows
+inmap1.4windows-amd64.exe preproc --config=preprocess_config.toml
+						</code></pre>
+					</li>
 					<li>Note: In order for this to actually work, you would need to download the GEOS-Chem data. More information is available in the 'geos-chem/README.md'.</li>
-					<li>For now, we will use previously the previously created preprocessor output file at 'geos-chem/inmap_inputs_geoschem4x5.ncf'.
+					<li>For now, we will use previously the previously created preprocessor output file at 'geos-chem/inmap_inputs_geoschem4x5.ncf'.</li>
+					<li>Push the 'Ctrl' and 'C' buttons at the same time ('Ctrl' first then hold it down and press 'C') in the command line to exit InMAP.</li>
+					<li>Also close the InMAP window in your browser to avoid future confusion.</li>
 				</ul>
 			</section>
 
@@ -239,10 +248,19 @@
 					<li>We will create example emissions scenarios using OpenStreetMap data for Beijing.</li>
 					<li>For example, we can compare whether a unit of emissions of primary PM<sub>2.5</sub> is more damaging per mile of major roadways vs. residential roadways.</li>
 					<li>To do this we create two emissions input shapefiles by running the commands:
-						<pre><code>./emissions/process_emissions_xxx -osmfile=emissions/beijing_china.osm.pbf -tag=highway -value=primary -pm25rate=1000 -out=run/primary_hw_emissions.shp</code></pre> and
-						<pre><code>./emissions/process_emissions_xxx -osmfile=emissions/beijing_china.osm.pbf -tag=highway -value=residential -pm25rate=1000 -out=run/residential_hw_emissions.shp</code></pre>
+						<pre><code>
+cd emissions # Move to emissions directory.
+# Mac:
+./process_emissions_mac -osmfile=beijing_china.osm.pbf -tag=highway -value=primary -pm25rate=1000 -out=../run/primary_hw_emissions.shp
+./process_emissions_mac -osmfile=beijing_china.osm.pbf -tag=highway -value=residential -pm25rate=1000 -out=../run/residential_hw_emissions.shp
+# Windows:
+process_emissions_windows.exe -osmfile=beijing_china.osm.pbf -tag=highway -value=primary -pm25rate=1000 -out=../run/primary_hw_emissions.shp
+process_emissions_windows.exe -osmfile=beijing_china.osm.pbf -tag=highway -value=residential -pm25rate=1000 -out=../run/residential_hw_emissions.shp
+cd ../ # Move back to parent directory.
+						</code></pre>
 					</li>
 					<li>More information is available in the <a href="xxxxxx">emissions</a> directory.</li>
+					<li>Our emissions files should now be in the 'run' directory, we can view them with <a href="https://www.qgis.org/en/site/">QGIS</a>!</li>
 				</ul>
 			</section>
 
@@ -253,14 +271,17 @@
 						<ol>
 							<li>Type "run_config.toml" in the --config input window.</li>
 							<li>Select the "run" and "steady" subcommands.</li>
-							<li>Set the '--EmissionShapefiles' field to '[emissions/primary_hw_emissions.shp]'.</li>
-							<li>Set the '--OutputFile' field to 'output/primary_hw.shp'.</li>
 							<li>Click "Execute".</li>
 						</ol>
-						<li>Command line:
-							<pre><code>inmap1.4XXXX run steady --config=run_config.toml --EmissionShapefiles='[emissions/primary_hw_emissions.shp]' --OutputFile='output/primary_hw.shp'</code></pre></li>
-						<li>...and repeat for the residential roads.</li>
-						<li>Compare the output of the two simulations in QGIS</li>
+						<li>Try the residential roads simulation using the command line:
+							<pre><code>
+# Mac
+./inmap1.4darwin-amd64 run steady --config=run_config.toml --EmissionsShapefiles='["run/residential_hw_emissions.shp"]' --OutputFile='run/residential_hw.shp'
+# Windows
+inmap1.4windows-amd64.exe run steady --config=run_config.toml --EmissionsShapefiles='["run/residential_hw_emissions.shp"]' --OutputFile='run/residential_hw.shp'
+							</code></pre>
+						</li>
+						<li>Compare the output of the two simulations in QGIS using Vector > Analysis Tools > Basic statistics</li>
 				</ul>
 			</section>
 
