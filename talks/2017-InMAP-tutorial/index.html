@@ -266,16 +266,16 @@ inmap1.4windows-amd64.exe preproc --config=preprocess_config.toml
 						<pre><code class="bash">
 cd emissions # Move to emissions directory.
 # Mac:
-./process_emissions_mac -osmfile=beijing_china.osm.pbf -tag=highway -value=primary -pm25rate=0.1 \
-		-out=../run/primary_hw_emissions.shp
-./process_emissions_mac -osmfile=beijing_china.osm.pbf -tag=highway -value=residential -pm25rate=0.1 \
-		-out=../run/residential_hw_emissions.shp
+./process_emissions_mac -osmfile=beijing_china.osm.pbf -tag=highway -value=primary \
+		-pm25rate=0.1 -out=../run/primary_hw_emissions.shp
+./process_emissions_mac -osmfile=beijing_china.osm.pbf -tag=highway -value=residential \
+		-pm25rate=0.1 -out=../run/residential_hw_emissions.shp
 
 # Windows:
-process_emissions_windows.exe -osmfile=beijing_china.osm.pbf -tag=highway -value=primary -pm25rate=0.1 ^
-		-out=../run/primary_hw_emissions.shp
-process_emissions_windows.exe -osmfile=beijing_china.osm.pbf -tag=highway -value=residential -pm25rate=0.1 ^
-		-out=../run/residential_hw_emissions.shp
+process_emissions_windows.exe -osmfile=beijing_china.osm.pbf -tag=highway -value=primary ^
+		-pm25rate=0.1 -out=../run/primary_hw_emissions.shp
+process_emissions_windows.exe -osmfile=beijing_china.osm.pbf -tag=highway -value=residential ^
+		-pm25rate=0.1 -out=../run/residential_hw_emissions.shp
 
 # Move back to parent directory.
 cd ../
