@@ -82,11 +82,11 @@ func writePolygon(features []*osm.GeomTags) {
 			p := gt.Geom.(geom.Polygon)
 			d := dtype{
 				Polygon: p,
-				PM2_5:   pm25rate / p.Area(),
-				NOx:     noxrate / p.Area(),
-				SOx:     soxrate / p.Area(),
-				NH3:     nh3rate / p.Area(),
-				VOC:     vocrate / p.Area(),
+				PM2_5:   pm25rate * p.Area(),
+				NOx:     noxrate * p.Area(),
+				SOx:     soxrate * p.Area(),
+				NH3:     nh3rate * p.Area(),
+				VOC:     vocrate * p.Area(),
 			}
 			if err := o.Encode(d); err != nil {
 				log.Fatal(err)
@@ -112,11 +112,11 @@ func writeLine(features []*osm.GeomTags) {
 			l := gt.Geom.(geom.LineString)
 			d := dtype{
 				MultiLineString: geom.MultiLineString{l},
-				PM2_5:           pm25rate / l.Length(),
-				NOx:             noxrate / l.Length(),
-				SOx:             soxrate / l.Length(),
-				NH3:             nh3rate / l.Length(),
-				VOC:             vocrate / l.Length(),
+				PM2_5:           pm25rate * l.Length(),
+				NOx:             noxrate * l.Length(),
+				SOx:             soxrate * l.Length(),
+				NH3:             nh3rate * l.Length(),
+				VOC:             vocrate * l.Length(),
 			}
 			if err := o.Encode(d); err != nil {
 				log.Fatal(err)
@@ -125,11 +125,11 @@ func writeLine(features []*osm.GeomTags) {
 			l := gt.Geom.(geom.MultiLineString)
 			d := dtype{
 				MultiLineString: l,
-				PM2_5:           pm25rate / l.Length(),
-				NOx:             noxrate / l.Length(),
-				SOx:             soxrate / l.Length(),
-				NH3:             nh3rate / l.Length(),
-				VOC:             vocrate / l.Length(),
+				PM2_5:           pm25rate * l.Length(),
+				NOx:             noxrate * l.Length(),
+				SOx:             soxrate * l.Length(),
+				NH3:             nh3rate * l.Length(),
+				VOC:             vocrate * l.Length(),
 			}
 			if err := o.Encode(d); err != nil {
 				log.Fatal(err)

@@ -1,0 +1,39 @@
+InMAPData="geos-chem/inmap_inputs_geoschem4x5.ncf"
+
+EmissionUnits="kg/year"
+
+EmissionsShapefiles=["run/residential_hw_emissions.shp"]
+
+OutputFile="run/residential_hw.shp"
+
+NotMeters=true
+
+[OutputVariables]
+  TotalPM25 = "PrimaryPM25 + pNH4 + pSO4 + pNO3 + SOA"
+  DeathsAll = "coxHazard(loglogRR(totalpm25), POP, mota_rate*100)"
+  DeathsM = "coxHazard(loglogRR(totalpm25), M, mota_rate*100)"
+  DeathsF = "coxHazard(loglogRR(totalpm25), F, mota_rate*100)"
+  Population = "POP"
+  BasePM25 = "BaselineTotalPM25"
+  WindSpeed = "WindSpeed"
+  Mortality = "mota_rate * 100"
+
+[VarGrid]
+  CensusFile="population/PopCensus2010_township.shp"
+  CensusPopColumns=["POP", "M", "F"]
+  PopGridColumn="POP"
+
+  GridProj="+proj=longlat"
+  VariableGridDx=1
+  VariableGridDy=1
+  VariableGridXo=114
+  VariableGridYo=36.5
+  Xnests=[5,3,3,3,3]
+  Ynests=[5,3,3,3,3]
+
+  PopConcThreshold=0.0001
+
+  MortalityRateFile="mortality/mortality_province.shp"
+
+  [VarGrid.MortalityRateColumns]
+    mota_rate="POP"
