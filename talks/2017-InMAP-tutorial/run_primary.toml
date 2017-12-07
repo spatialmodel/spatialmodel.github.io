@@ -6,8 +6,6 @@ EmissionsShapefiles=["run/primary_hw_emissions.shp"]
 
 OutputFile="run/primary_hw.shp"
 
-NotMeters=true
-
 [OutputVariables]
   TotalPM25 = "PrimaryPM25 + pNH4 + pSO4 + pNO3 + SOA"
   DeathsAll = "coxHazard(loglogRR(totalpm25), POP, mota_rate*100)"
